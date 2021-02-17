@@ -5,12 +5,35 @@ $(document).ready(function(){
     let inputArr = [];
     let number = '';
 
+    function clearScreen(){
+        // Removing old result 
+         $('#result').html(0);
+    };
+
+    function result() {
+        // Showing result here
+        $('#result').text(inputArr[0]);
     
+        console.log(inputArr);
+    };
+
+    function clearArr() {
+        // Cleaning data from array for next calculation
+        inputArr.splice(0, inputArr.length);
+    };
+
+    
+    // Click event on any number or operator
     $('.btn__number').click(function(){
         let numStr = $(this).text();
         
         number = number + numStr;
-        $('#result').html(numStr);
+
+        if(inputArr.length === 0){
+            $('#result').html(numStr); 
+        } else{
+            $('#result').append(numStr);
+        }
     });
 
 
@@ -20,12 +43,17 @@ $(document).ready(function(){
 
         inputArr.push(parseFloat(number));
         inputArr.push(operator);
-        $('#result').html(operator);
+        $('#result').append(operator);
         number = '';
         console.log(inputArr);
     });
 
-    $('.btn__clear').click(function clear);
+    // Clear operator
+
+    $('.btn__clear').click(function(){
+        clearScreen();
+        clearArr();
+    });
 
     // Equal to Operator
     $('.btn__operator--equal-to').click(function(){
@@ -91,22 +119,7 @@ $(document).ready(function(){
         clearArr();
     });
 
-    function clearScreen(){
-        // Removing old result 
-         $('#result').html(0);
-    };
 
-    function result() {
-        // Showing result here
-        $('#result').text(inputArr[0]);
-    
-        console.log(inputArr);
-    };
-
-    function clearArr() {
-        // Cleaning data from array for next calculation
-        inputArr.splice(0, inputArr.length);
-    };
 
     
     
