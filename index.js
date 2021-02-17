@@ -29,7 +29,7 @@ $(document).ready(function(){
         
         number = number + numStr;
 
-        if(inputArr.length === 0){
+        if(number === numStr){                                   // <========== 
             $('#result').html(numStr); 
         } else{
             $('#result').append(numStr);
