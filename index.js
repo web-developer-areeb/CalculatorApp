@@ -1,148 +1,155 @@
-$(document).ready(function(){
+$(document).ready(function () {
+  console.log("index.js is working.");
 
-    console.log('index.js is working.');
-    
-    let inputArr = [];
-    let number = '';
+  let inputArr = [];
+  let number = "";
 
-    function clearScreen(){
-        // Removing old result 
-         $('#result').html(0);
-    };
+  // Removing old result
+  function clearScreen() {
+    $("#result").html(0);
+  }
 
-    function result() {
-        // Showing result here
-        $('#result').text(inputArr[0]);
-    
-        console.log(inputArr);
-    };
+  // Showing result here
+  function result() {
+    $("#result").text(inputArr[0]);
 
-    function clearArr() {
-        // Cleaning data from array for next calculation
-        inputArr.splice(0, inputArr.length);
-    };
+    console.log(inputArr);
+  }
 
-    
+  // Cleaning data from array for next calculation
+  function clearArr() {
+    inputArr.splice(0, inputArr.length);
+  }
+
+  function numPress() {
     // Click event on any number or operator
-    $('.btn__number').click(function(){
-        let numStr = $(this).text();
-        
-        number = number + numStr;
+    $(".btn__number").click(function () {
+      let numStr = $(this).text();
 
-        if(number === numStr){                                   // <========== 
-            $('#result').html(numStr); 
-        } else{
-            $('#result').append(numStr);
-        }
+      number = number + numStr;
+      $("#result").append(numStr);
     });
+  }
 
+  function pushNum() {
+    inputArr.push(parseFloat(number));
+  }
 
-    // Operators
-    $('.btn__operator').click(function(){
-        const operator = $(this).text();
+  // Dividing numbers
+  function dividingNumbers() {
+    for (i = 0; i <= inputArr.length; i++) {
+      if (inputArr[i] === "÷") {
+        let division;
 
-        inputArr.push(parseFloat(number));
-        inputArr.push(operator);
-        $('#result').append(operator);
-        number = '';
+        division = inputArr[i - 1] / inputArr[i + 1];
+
+        inputArr.splice(i - 1, 3, division);
         console.log(inputArr);
-    });
+      }
+    }
+  }
 
-    // Clear operator
+  // Multiplying numbers
+  function multiplyingNumbers() {
+    for (i = 0; i <= inputArr.length; i++) {
+      if (inputArr[i] === "×") {
+        let multiplication;
 
-    $('.btn__clear').click(function(){
-        clearScreen();
-        clearArr();
-    });
+        multiplication = inputArr[i - 1] * inputArr[i + 1];
 
-    // Equal to Operator
-    $('.btn__operator--equal-to').click(function(){
-        const operator = $(this).text();
-
-        // Pushing the last entry into the array
-        inputArr.push(parseFloat(number));
-        number = '';
-
+        inputArr.splice(i - 1, 3, multiplication);
         console.log(inputArr);
-        
-        // Dividing numbers
-        for(i=0; i<=inputArr.length; i++){
-            if(inputArr[i] === '÷'){
-                let division;
+      }
+    }
+  }
 
-                division = inputArr[i-1]/inputArr[i+1];
+  //Adding numbers
+  function addingNumbers() {
+    for (i = 0; i <= inputArr.length; i++) {
+      if (inputArr[i] === "+") {
+        let sum;
 
-                inputArr.splice(i-1, 3, division);
-                console.log(inputArr);
-            }
-        }
+        sum = inputArr[i - 1] + inputArr[i + 1];
 
-        // Multiplying numbers
-        for(i=0; i<=inputArr.length; i++){
-            if(inputArr[i] === '×'){
-                let multiplication;
+        inputArr.splice(i - 1, 3, sum);
+        console.log(inputArr);
+      }
+    }
+  }
 
-                multiplication = inputArr[i-1] * inputArr[i+1];
+  // Subtracting numbers
+  function subtractingNumbers() {
+    for (i = 0; i <= inputArr.length; i++) {
+      if (inputArr[i] === "−") {
+        let subtraction;
 
-                inputArr.splice(i-1, 3, multiplication);
-                console.log(inputArr);
-            }
-        }
+        subtraction = inputArr[i - 1] - inputArr[i + 1];
+        inputArr.splice(i - 1, 3, subtraction);
 
-        //Adding numbers
-        for(i=0; i<=inputArr.length; i++){
-            if(inputArr[i] === '+'){
-                let sum;
+        //test
+        console.log(inputArr);
+      }
+    }
+  }
 
-                sum = inputArr[i-1] + inputArr[i+1];
+  // pushing the last number and operator (because number string waits to complete before pushing to array)
+  $(".btn__operator").click(function () {
+    const operator = $(this).text();
 
-                inputArr.splice(i-1, 3, sum);
-                console.log(inputArr);
-            }
-        }
+    pushNum();
+    inputArr.push(operator);
+    $("#result").append(operator);
+    number = "";
+    console.log(inputArr);
+  });
 
-        // Subtracting numbers
-        for(i=0; i<=inputArr.length; i++){
-            if(inputArr[i] === '−'){
-                let subtraction;
+  // Clear operator
+  $(".btn__clear").click(function () {
+    clearScreen();
+    clearArr();
+    console.log(inputArr);
+  });
 
-                subtraction = inputArr[i-1] - inputArr[i+1];
+  // Equal to Operator
+  $(".btn__operator--equal-to").click(function () {
+    const operator = $(this).text();
 
-                inputArr.splice(i-1, 3, subtraction);
+    // Pushing the last entry into the array
+    pushNum();
+    number = "";
 
-                //test
-                console.log(inputArr);
-            }
-        }
-        clearScreen();
-        result();
-        clearArr();
-    });
+    console.log(inputArr);
 
+    dividingNumbers();
+    multiplyingNumbers();
+    addingNumbers();
+    subtractingNumbers();
 
+    clearScreen();
+    result();
+    clearArr();
+  });
 
-    
-    
-    
-    
+  function init() {
+    numPress();
+  }
 
-    
-    // elements.shopping.addEventListener('click', e=>{
-    //     const id = e.target.closest('.shopping__item').dataset.itemid;
-    
-    //     // Handle the delete button
-    //     if (e.target.matches('.shopping__delete, .shopping__delete *')) {
-    //         //Delete from state
-    //         state.list.deleteItem(id);
-    //         //Delete from UI
-    //         listView.deleteItem(id);
-    
-    //         // Handle the count update
-    //     } else if(e.target.matches('.shopping__count-value')) {
-    //         const val = parseFloat(e.target.value, 10);
-    //         state.list.updateItem(id, val);
-    //     }    
-    // });
+  init();
 
+  // elements.shopping.addEventListener('click', e=>{
+  //     const id = e.target.closest('.shopping__item').dataset.itemid;
 
+  //     // Handle the delete button
+  //     if (e.target.matches('.shopping__delete, .shopping__delete *')) {
+  //         //Delete from state
+  //         state.list.deleteItem(id);
+  //         //Delete from UI
+  //         listView.deleteItem(id);
+
+  //         // Handle the count update
+  //     } else if(e.target.matches('.shopping__count-value')) {
+  //         const val = parseFloat(e.target.value, 10);
+  //         state.list.updateItem(id, val);
+  //     }
+  // });
 });

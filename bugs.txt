@@ -1,0 +1,9 @@
+1. after inputting an operator the number before oprator disappears. (number === numStr) 
+should be changed.
+
+2. Clean operator "C" is not behaving properly. Any calculation after pressing C results 
+NaN. 
+
+3. Input from keypad should support rather just click only.
+
+4. inputting operators two times results NaN.
